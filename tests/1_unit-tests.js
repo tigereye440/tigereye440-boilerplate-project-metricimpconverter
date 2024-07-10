@@ -90,7 +90,7 @@ suite('Unit Tests', function(){
     });
 
     test('should correctly convert lbs to kg', function() {
-        assert.equal(convertHandler.convert(12, 'lbs'), 5.4431, '12lbs should convert to 5.44310');
+        assert.equal(convertHandler.convert(12, 'lbs'), 5.44310, '12lbs should convert to 5.44310');
     });
 
     test('should correctly convert kg to lbs', function() {
