@@ -4,7 +4,6 @@ function ConvertHandler() {
     const alpha = /[a-zA-z]/
 
     let num = (input.split(alpha)[0]).toString();
-    console.log(num);
     const bars = num.match(/\//g);
     if (bars != null) {
       if (bars.length > 1) throw new Error('invalid number');
@@ -22,7 +21,6 @@ function ConvertHandler() {
     const unitRegex = /[a-zA-z]*$/
     const unit = input.match(unitRegex);
     const units = ['gal', 'mi', 'lbs', 'L', 'km', 'kg'];
-    
 
     if (!units.includes(unit[0])) {
       throw new Error('invalid unit');
@@ -67,23 +65,35 @@ function ConvertHandler() {
     
     let result;
 
-    switch(initUnit) {
-      case 'gal' || 'L':
-        result = initUnit === 'gal' ? initNum * galToL : initNum / galToL;
+    switch(initUnit.toLowerCase()) {
+      case 'gal':
+        result = initNum * galToL;
         break;
-      case 'lbs' || 'kg':
-        result = initUnit === 'lbs' ? initNum * lbsToKg : initNum / lbsToKg;
+      case 'l':
+        result = initNum / galToL;
         break;
-      case 'mi' || 'km':
-        result = initUnit === 'mi' ? initNum * miToKm : initNum / miToKm;
+      case 'lbs':
+        result = initNum * lbsToKg;
+        break;
+      case 'kg':
+        result = initNum / lbsToKg;
+        break;
+      case 'mi':
+        result = initNum * miToKm;
+        break;
+      case 'km':
+        result = initNum / miToKm;
         break;
       default:
-        throw new Error('invalid unit');
+        throw new Error(`Invalid unit ${initUnit}`);
     }
     
-    if (result == NaN) throw new Error ('invalid number');
-    return result;
-  };
+    if (isNaN(result)) {
+        throw new Error('Invalid number');
+    }
+    
+    return result.toFixed(5);
+};
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
     let result = `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
